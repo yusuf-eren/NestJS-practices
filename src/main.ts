@@ -7,14 +7,23 @@ import { NestFactory } from "@nestjs/core";
 // inside of our application
 @Controller()
 class AppController {
-    @Get()
+    // @Get declares route of the app
+    @Get("/a")
     getRootRoute() {
         return "hi there!";
     }
 }
 
+@Controller()
+class TestController {
+    @Get("/hello")
+    getRootRoute() {
+        return "Hello thereeee";
+    }
+}
+
 @Module({
-    controllers: [AppController],
+    controllers: [AppController, TestController],
 })
 class AppModule {}
 
