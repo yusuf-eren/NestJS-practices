@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2017",
+        // the 2 compiler options down below is
+        // what  makes Nest really work
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
+    }
+}
