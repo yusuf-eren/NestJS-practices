@@ -11,6 +11,11 @@ export class AppController {
     getRootRoute() {
         return "hi there!";
     }
+
+    @Get("/bye")
+    getByeThere() {
+        return "Bye";
+    }
 }
 
 @Controller()
