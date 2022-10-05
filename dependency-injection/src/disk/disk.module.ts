@@ -6,5 +6,6 @@ import { DiskService } from "./disk.service";
     // importing power module (exported from power.module.ts)
     imports: [PowerModule],
     providers: [DiskService],
+    exports: [DiskService],
 })
 export class DiskModule {}

@@ -6,5 +6,7 @@ import { PowerModule } from "src/power/power.module";
     // importing power module (exported from power.module.ts)
     imports: [PowerModule],
     providers: [CpuService],
+    // exporting cpu service
+    exports: [CpuService],
 })
 export class CpuModule {}
