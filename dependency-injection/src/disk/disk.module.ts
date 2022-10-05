@@ -1,7 +1,10 @@
-import { Module } from '@nestjs/common';
-import { DiskService } from './disk.service';
+import { Module } from "@nestjs/common";
+import { PowerModule } from "src/power/power.module";
+import { DiskService } from "./disk.service";
 
 @Module({
-  providers: [DiskService]
+    // importing power module (exported from power.module.ts)
+    imports: [PowerModule],
+    providers: [DiskService],
 })
 export class DiskModule {}
