@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class PowerService {}
+export class PowerService {
+    supplyPower(watts: number) {
+        console.log(`Supplying ${watts} worth of power.`);
+    }
+}
