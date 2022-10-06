@@ -13,10 +13,15 @@ import { Report } from "./reports/report.entity";
     UsersModule,
     ReportsModule,
     TypeOrmModule.forRoot({
-      type: "sqlite",
-      database: "db.sqlite",
-      entities: [User, Report],
-      synchronize: true,
+      type: "sqlite", // db type
+      database: "db.sqlite", // filename
+      entities: [User, Report], // entities
+      synchronize: true, // *!*
+      // This option when set to true,
+      // is going to cause typeOrm to take a look
+      // at the structure of all your different entities
+      // and then automatically update the structure
+      // of your database
     }),
   ],
   controllers: [AppController],
