@@ -28,12 +28,12 @@ export class User {
   }
 
   @AfterUpdate()
-  logUpdate(){
+  logUpdate() {
     console.log(`Updated User with id ${this.id}`);
   }
 
   @AfterRemove()
-  logRemove(){
+  logRemove() {
     console.log(`Remove User with id ${this.id}`);
   }
 }
