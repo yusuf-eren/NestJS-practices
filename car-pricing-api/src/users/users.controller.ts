@@ -8,10 +8,14 @@ import {
   Query,
   Delete,
   NotFoundException,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from "@nestjs/common";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { UpdateUserDto } from "./dtos/update-user.dto";
 import { UsersService } from "./users.service";
+import { Serialize } from "src/interceptors/serialize.interceptor";
+import { UserDto } from "./dtos/user.dto";
 
 @Controller("auth")
 export class UsersController {
@@ -25,6 +29,9 @@ export class UsersController {
     this.usersService.create(body.email, body.password);
   }
 
+  // Interceptor is works like a middleware but it works before
+  // and after the controller.
+  @Serialize(UserDto)
   // We are getting the param of the request
   // but don't pass it as 'string' !!!
   // yes the param comes as a string
