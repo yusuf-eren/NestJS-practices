@@ -34,7 +34,12 @@ export class UsersController {
     // then declaring it as body and
     // declaring type of body as 'CreateUserDto'
     createUser(@Body() body: CreateUserDto) {
-        this.authService.signup(body.email, body.password);
+        return this.authService.signup(body.email, body.password);
+    }
+
+    @Post("/signin")
+    loginUser(@Body() body: CreateUserDto) {
+        return this.authService.signin(body.email, body.password);
     }
 
     // Interceptor is works like a middleware but it works before
