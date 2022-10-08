@@ -18,6 +18,10 @@ import { Serialize } from "src/interceptors/serialize.interceptor";
 import { UserDto } from "./dtos/user.dto";
 
 @Controller("auth")
+// @Serialize() applies interceptor to all controllers under this route
+// also we can still apply interceptor to specific controllers
+// as an example: @Serialize(UpdateUserDto)
+@Serialize(UserDto)
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
@@ -31,7 +35,7 @@ export class UsersController {
 
   // Interceptor is works like a middleware but it works before
   // and after the controller.
-  @Serialize(UserDto)
+  // @Serialize(UserDto)
   // We are getting the param of the request
   // but don't pass it as 'string' !!!
   // yes the param comes as a string
