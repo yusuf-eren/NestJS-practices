@@ -1,8 +1,11 @@
-import { Injectable, BadRequestException } from "@nestjs/common";
+import {
+    Injectable,
+    BadRequestException,
+    NotFoundException,
+} from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { randomBytes, scrypt as _scrypt } from "crypto";
 import { promisify } from "util";
-import { EntityNotFoundError } from "typeorm";
 
 const scrypt = promisify(_scrypt);
 
@@ -29,10 +32,15 @@ export class AuthService {
 
     async signin(email: string, password: string) {
         const [user] = await this.usersService.find(email);
-        if (!user) return "not found";
-        const salt = randomBytes(8).toString("hex");
+        if (!user) throw new NotFoundException("user not found");
+
+        const [salt, storedHash] = user.password.split(".");
+
         const hash = (await scrypt(password, salt, 32)) as Buffer;
-        const result = salt + "." + hash.toString("hex");
-        if (result === user.password) return "Succesfully Signed In";
+        if (storedHash !== hash.toString("hex")) {
+            throw new BadRequestException("bad password");
+        }
+
+        return user;
     }
 }
