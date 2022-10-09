@@ -28,27 +28,31 @@ export class UsersController {
         private authService: AuthService,
     ) {}
 
-    @Get("/colors/:color")
-    setColor(@Param("color") color: string, @Session() session: any) {
-        session.color = color;
+    @Get("/whoami")
+    whoAmi(@Session() session: any) {
+        return this.usersService.findOne(session.userId);
     }
 
-    @Get("/colors")
-    getColor(@Session() session: any) {
-        return session.color;
+    @Post("/signout")
+    signOut(@Session() session: any) {
+        session.userId = null;
     }
 
     @Post("/signup")
     // We are getting the body of the request
     // then declaring it as body and
     // declaring type of body as 'CreateUserDto'
-    createUser(@Body() body: CreateUserDto) {
-        return this.authService.signup(body.email, body.password);
+    async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+        const user = await this.authService.signup(body.email, body.password);
+        session.userId = user.id;
+        return user;
     }
 
     @Post("/signin")
-    loginUser(@Body() body: CreateUserDto) {
-        return this.authService.signin(body.email, body.password);
+    async loginUser(@Body() body: CreateUserDto, @Session() session: any) {
+        const user = await this.authService.signin(body.email, body.password);
+        session.userId = user.id;
+        return user;
     }
 
     // Interceptor is works like a middleware but it works before
