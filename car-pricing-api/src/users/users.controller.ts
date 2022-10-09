@@ -9,6 +9,7 @@ import {
     Delete,
     NotFoundException,
     Session,
+    UseGuards,
 } from "@nestjs/common";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { UpdateUserDto } from "./dtos/update-user.dto";
@@ -16,6 +17,9 @@ import { UsersService } from "./users.service";
 import { Serialize } from "src/interceptors/serialize.interceptor";
 import { UserDto } from "./dtos/user.dto";
 import { AuthService } from "./auth.service";
+import { CurrentUser } from "./decorators/current-user.decorator";
+import { User } from "./user.entity";
+import { AuthGuard } from "src/guards/auth.guard";
 
 @Controller("auth")
 // @Serialize() applies interceptor to all controllers under this route
@@ -29,8 +33,14 @@ export class UsersController {
     ) {}
 
     @Get("/whoami")
-    whoAmi(@Session() session: any) {
-        return this.usersService.findOne(session.userId);
+    // Using custom guard. If it returns false
+    // We are not going to get any data except
+    // an 403 forbidden resource error
+    // on the other hand if it returns true or any data
+    // it just passes nothing
+    @UseGuards(AuthGuard)
+    whoAmi(@CurrentUser() user: User) {
+        return user;
     }
 
     @Post("/signout")
