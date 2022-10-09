@@ -27,11 +27,7 @@ export class UsersService {
     // finds first user with given id
     // (ids are unique but this is just an example)
     findOne(id: number) {
-        if (!id) {
-            throw new NotFoundException(
-                "userId is not found. (you are not logged in)",
-            );
-        }
+        if (!id) return null;
         return this.repo.findOneBy({ id });
     }
 
