@@ -50,6 +50,8 @@ const cookieSession = require("cookie-session");
         },
     ],
 })
+
+// declaring global middleware
 export class AppModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
