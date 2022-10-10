@@ -14,25 +14,35 @@ const cookieSession = require("cookie-session");
 
 @Module({
     imports: [
-      ConfigModule.forRoot({
-        isGlobal: true,
-        // NODE_ENV values
-        envFilePath: `.env${process.env.NODE_ENV}`
-      }),
+        ConfigModule.forRoot({
+            isGlobal: true,
+            // NODE_ENV values
+            envFilePath: `.env${process.env.NODE_ENV}`,
+        }),
         UsersModule,
         ReportsModule,
-        TypeOrmModule.forRoot({
-            type: "sqlite", // db type
-            database:
-                process.env.NODE_ENV === "test" ? "test.sqlite" : "db.sqlite", // filename
-            entities: [User, Report], // entities
-            synchronize: true, // *!*
-            // This option when set to true,
-            // is going to cause typeOrm to take a look
-            // at the structure of all your different entities
-            // and then automatically update the structure
-            // of your database
+        TypeOrmModule.forRootAsync({
+            inject: [ConfigService],
+            useFactory: (config: ConfigService) => {
+                return {
+                    type: "sqlite", // db type
+                    database: config.get<string>("DB_NAME"), // filename
+                    entities: [User, Report], // entities
+                    synchronize: true,
+                };
+            },
         }),
+        // TypeOrmModule.forRoot({
+        //     type: "sqlite", // db type
+        //     database: "db.sqlite", // filename
+        //     entities: [User, Report], // entities
+        //     synchronize: true, // *!*
+        //     // This option when set to true,
+        //     // is going to cause typeOrm to take a look
+        //     // at the structure of all your different entities
+        //     // and then automatically update the structure
+        //     // of your database
+        // }),
     ],
     controllers: [AppController],
     providers: [
