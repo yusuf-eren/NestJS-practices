@@ -17,10 +17,8 @@ const cookieSession = require("cookie-session");
         ConfigModule.forRoot({
             isGlobal: true,
             // NODE_ENV values
-            envFilePath: `.env${process.env.NODE_ENV}`,
+            envFilePath: `.env.${process.env.NODE_ENV}`,
         }),
-        UsersModule,
-        ReportsModule,
         TypeOrmModule.forRootAsync({
             inject: [ConfigService],
             useFactory: (config: ConfigService) => {
@@ -29,20 +27,17 @@ const cookieSession = require("cookie-session");
                     database: config.get<string>("DB_NAME"), // filename
                     entities: [User, Report], // entities
                     synchronize: true,
+                    // This option when set to true,
+                    // is going to cause typeOrm to take a look
+                    // at the structure of all your different entities
+                    // and then automatically update the structure
+                    // of your database
                 };
             },
         }),
-        // TypeOrmModule.forRoot({
-        //     type: "sqlite", // db type
-        //     database: "db.sqlite", // filename
-        //     entities: [User, Report], // entities
-        //     synchronize: true, // *!*
-        //     // This option when set to true,
-        //     // is going to cause typeOrm to take a look
-        //     // at the structure of all your different entities
-        //     // and then automatically update the structure
-        //     // of your database
-        // }),
+
+        UsersModule,
+        ReportsModule,
     ],
     controllers: [AppController],
     providers: [
