@@ -28,7 +28,7 @@ export class UsersService {
     // (ids are unique but this is just an example)
     findOne(id: number) {
         if (!id) return null;
-        return this.repo.findOneBy({ id });
+        return this.repo.findOne({ id });
     }
 
     // finds all the different users with
